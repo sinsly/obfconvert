@@ -78,14 +78,14 @@ local ok, err = pcall(function()
     if type(setclipboard) == "function" then
         setclipboard(final_text)
     else
-        error("setclipboard not available in this environment")
+        error("Setclipboard not available in this environment")
     end
 end)
 
 if ok then
-    print("\n-- Copied to clipboard (setclipboard) --")
+    print("Copied to clipboard (setclipboard)")
 else
-    print("\n-- Could not copy to clipboard: " .. tostring(err) .. " --")
+    print("Could not copy to clipboard: " .. tostring(err))
 end
 
 
@@ -93,11 +93,11 @@ end
 -- reconstruct the original source from obf_string + rev_mapping
 local function decompile_to_string()
     if type(obf_string) ~= "string" then
-        print("-- no obf_string present to decompile --")
+        print("No obf_string present to decompile")
         return nil
     end
     if type(rev_mapping) ~= "table" then
-        print("-- no rev_mapping present to decompile --")
+        print("No rev_mapping present to decompile")
         return nil
     end
 
@@ -124,31 +124,31 @@ end
 local function run_decompiled()
     local reconstructed = decompile_to_string()
     if not reconstructed then
-        print("-- nothing reconstructed; aborting execution --")
+        print("Nothing reconstructed; aborting execution")
         return nil
     end
 
     -- choose loader: Lua 5.2+ has load; 5.1 uses loadstring
     local loader = load or loadstring
     if not loader then
-        print("-- no load/loadstring available in this Lua environment --")
+        print("No load/loadstring available in this Lua environment")
         return nil
     end
 
     -- try to compile the reconstructed code into a chunk
     local chunk, compile_err = loader(reconstructed, "decompiled_chunk")
     if not chunk then
-        print("-- compile error in decompiled code: " .. tostring(compile_err))
+        print("Compile error in decompiled code: " .. tostring(compile_err))
         return nil
     end
 
     -- execute compiled chunk safely with pcall
     local ok, runtime_err = pcall(chunk)
     if ok then
-        print("-- Decompiled code executed successfully --")
+        print("Decompiled code executed successfully")
         return true
     else
-        print("-- Error running decompiled code: " .. tostring(runtime_err))
+        print("Error running decompiled code: " .. tostring(runtime_err))
         return nil
     end
 end
