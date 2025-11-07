@@ -83,7 +83,7 @@ local ok, err = pcall(function()
 end)
 
 if ok then
-    print("Copied to clipboard (setclipboard)")
+    print("The obf_string and rev_mapping has been copied to clipboard")
 else
     print("Could not copy to clipboard: " .. tostring(err))
 end
