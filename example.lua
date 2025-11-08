@@ -8,23 +8,9 @@
 
 --]]
 
-obf_string = "~01~02~03~04~05~06~07~08~03~09~05~08~03~0A~09~05~0B~0A~05~09~0C~0D~02~0E~0B~0F~07~10"
+-- This is so simple please understand
+-- src is your obf_string and rev_mapping
+-- dcm just converts it to unobfuscated code
 
-rev_mapping = {
-  ["~01"] = "p",
-  ["~02"] = "r",
-  ["~03"] = "i",
-  ["~04"] = "n",
-  ["~05"] = "t",
-  ["~06"] = "(",
-  ["~07"] = "'",
-  ["~08"] = "h",
-  ["~09"] = " ",
-  ["~0A"] = "s",
-  ["~0B"] = "e",
-  ["~0C"] = "w",
-  ["~0D"] = "o",
-  ["~0E"] = "k",
-  ["~0F"] = "d",
-  ["~10"] = ")",
-}
+local src = loadstring(game:HttpGet("https://raw.githubusercontent.com/sinsly/m40fuscation/main/example.lua"))()
+local dcm = loadstring(game:HttpGet("https://raw.githubusercontent.com/sinsly/m40fuscation/main/connect.lua"))()
