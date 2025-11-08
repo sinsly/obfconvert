@@ -34,7 +34,7 @@ rev_mapping = {
 
 
 local src = src or [[
-print('hi this test worked')]]
+print('hi this test worked 2')]]
 
 -- detect whether obf_string and rev_mapping look valid
 local function has_valid_obf()
@@ -138,71 +138,4 @@ else
     print("Using existing obf_string + rev_mapping.")
 end
 
--- decompiler: reconstruct original source
-local function decompile_to_string()
-    if type(obf_string) ~= "string" then
-        print("No obf_string present to decompile")
-        return nil
-    end
-    if type(rev_mapping) ~= "table" then
-        print("No rev_mapping present to decompile")
-        return nil
-    end
-
-    local parts = {}
-    local i = 1
-    local len = #obf_string
-    -- tokens are fixed-length: tilde + two hex chars => length 3
-    while i <= len do
-        local token = obf_string:sub(i, i+2)
-        local ch = rev_mapping[token]
-        if ch == nil then
-            -- unknown token: insert placeholder and include the token in brackets to help debugging
-            table.insert(parts, ("<UNKNOWN:%s>"):format(token))
-        else
-            parts[#parts+1] = ch
-        end
-        i = i + 3
-    end
-
-    local reconstructed = table.concat(parts)
-    return reconstructed
-end
-
--- run the reconstructed chunk
-local function run_decompiled()
-    local reconstructed = decompile_to_string()
-    if not reconstructed then
-        print("Nothing reconstructed; aborting execution")
-        return nil
-    end
-
-    local loader = load or loadstring
-    if not loader then
-        print("No load/loadstring available in this Lua environment")
-        return nil
-    end
-
-    local chunk, compile_err = loader(reconstructed, "decompiled_chunk")
-    if not chunk then
-        print("Compile error in decompiled code: " .. tostring(compile_err))
-        return nil
-    end
-
-    local ok, runtime_err = pcall(chunk)
-    if ok then
-        print("Decompiled code executed successfully")
-        return true
-    else
-        print("Error running decompiled code: " .. tostring(runtime_err))
-        return nil
-    end
-end
-
--- automatically run the decompiled chunk for testing
-local success = run_decompiled()
-if success then
-    print("Done.")
-else
-    print("Decompilation or execution failed; check tokens / mapping.")
-end
+local dcm = loadstring(game:HttpGet("https://raw.githubusercontent.com/sinsly/m40fuscation/main/connect.lua"))()
