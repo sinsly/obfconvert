@@ -11,7 +11,6 @@
          local block, obf_string, rev_mapping = fn(my_src, 2)
 --]]
 
--- helpers
 local function has_valid_obf(obf_string_param, rev_mapping_param)
     if type(obf_string_param) ~= "string" or #obf_string_param == 0 then return false end
     if type(rev_mapping_param) ~= "table" then return false end
